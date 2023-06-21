@@ -9,6 +9,22 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <title>Collaborative Course Calendar</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.0/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('input[name="event"]').change(function() {
+                var dropdown = $(this).closest('tr').find('.event-time-dropdown');
+                if ($(this).is(':checked')) {
+                    if ($(this).val() === 'outside_class_time') {
+                        dropdown.show();
+                    } else {
+                        dropdown.hide();
+                    }
+                }
+            });
+        });
+    </script>
+
 </head>
 
 <body class="mb-48">
@@ -138,12 +154,13 @@
                                     <div
                                         class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
                                         @if ($events[0]->date == date('Y-m-d'))
-                                            Today
+                                            Today {{ date('H:i', strtotime($events[0]->event_time)) }}
                                         @else
                                             @php
                                                 $timestamp = strtotime($events[0]->date);
                                             @endphp
                                             {{ date('d-m-Y', $timestamp) }}
+                                            {{ date('H:i', strtotime($events[0]->event_time)) }}
                                         @endif
                                     </div>
                                 @else
@@ -165,12 +182,13 @@
                                     <div
                                         class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
                                         @if ($events[1]->date == date('Y-m-d'))
-                                            Today
+                                            Today {{ date('H:i', strtotime($events[1]->event_time)) }}
                                         @else
                                             @php
                                                 $timestamp = strtotime($events[1]->date);
                                             @endphp
                                             {{ date('d-m-Y', $timestamp) }}
+                                            {{ date('H:i', strtotime($events[1]->event_time)) }}
                                         @endif
                                     </div>
                                 @else
@@ -192,12 +210,13 @@
                                     <div
                                         class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
                                         @if ($events[2]->date == date('Y-m-d'))
-                                            Today
+                                            Today {{ date('H:i', strtotime($events[2]->event_time)) }}
                                         @else
                                             @php
                                                 $timestamp = strtotime($events[2]->date);
                                             @endphp
                                             {{ date('d-m-Y', $timestamp) }}
+                                            {{ date('H:i', strtotime($events[2]->event_time)) }}
                                         @endif
                                     </div>
                                 @else
@@ -237,7 +256,12 @@
         </div>
     </footer>
 
-
+    <script>
+        function toggleDropdown(show, dropdownId) {
+            var dropdown = document.getElementById(dropdownId);
+            dropdown.style.display = show ? "block" : "none";
+        }
+    </script>
 </body>
 
 

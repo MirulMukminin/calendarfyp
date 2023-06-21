@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('key');
             $table->string('lecturer_id');
             $table->string('course_code');
+            $table->string('event_time');
             $table->timestamps();
         });
     }

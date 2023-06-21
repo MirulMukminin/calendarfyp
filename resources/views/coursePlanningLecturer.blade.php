@@ -8,6 +8,11 @@
             ->where('user', $userId)
             ->orderBy('id', 'asc')
             ->get();
+        $event = DB::table('events')
+            ->where('key', $course_content[1]->key)
+            ->first();
+        //dd($event!=null && $event->event_time);
+        // dd($course_content);
         //dd($course_content);
         $course = DB::table('courses')
             ->where('id', $id)
@@ -49,6 +54,9 @@
                         <th scope="col" class="px-6 py-3">
                             Event
                         </th>
+                        <th scope="col" class="px-6 py-3">
+                            Event Time
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -84,6 +92,45 @@
                                     @if ($course_content->isNotEmpty() && $course_content[$i]->event !== null) checked @endif>
                             </td>
 
+                            <td class="px-6 py-4">
+                                <select id="time_dropdown_{{ $i }}" name="event_time_[{{ $i }}]"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg">
+                                    @php
+                                        $event = DB::table('events')
+                                            ->where('key', $course_content[$i]->key)
+                                            ->first();
+                                    @endphp
+                                    <option value="0800"@if ($event != null && $event->event_time == '0800') selected @endif>0800
+                                    </option>
+                                    <option value="0900" @if ($event != null && $event->event_time == '0900') selected @endif>0900
+                                    </option>
+                                    <option value="1000" @if ($event != null && $event->event_time == '1000') selected @endif>1000
+                                    </option>
+                                    <option value="1100"@if ($event != null && $event->event_time == '1100') selected @endif>1100
+                                    </option>
+                                    <option value="1200"@if ($event != null && $event->event_time == '1200') selected @endif>1200
+                                    </option>
+                                    <option value="1300"@if ($event != null && $event->event_time == '1300') selected @endif>1300
+                                    </option>
+                                    <option value="1400"@if ($event != null && $event->event_time == '1400') selected @endif>1400
+                                    </option>
+                                    <option value="1500"@if ($event != null && $event->event_time == '1500') selected @endif>1500
+                                    </option>
+                                    <option value="1600"@if ($event != null && $event->event_time == '1600') selected @endif>1600
+                                    </option>
+                                    <option value="1700"@if ($event != null && $event->event_time == '1700') selected @endif>1700
+                                    </option>
+                                    <option value="1800"@if ($event != null && $event->event_time == '1800') selected @endif>1800
+                                    </option>
+                                    <option value="1900"@if ($event != null && $event->event_time == '1900') selected @endif>1900
+                                    </option>
+                                    <option value="2000"@if ($event != null && $event->event_time == '2000') selected @endif>2000
+                                    </option>
+                                    <option value="during_class_hour"@if ($event == null) selected @endif>
+                                        During Class Hour
+                                    </option>
+                                </select>
+                            </td>
                         </tr>
                     @endfor
                 </tbody>

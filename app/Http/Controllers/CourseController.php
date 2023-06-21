@@ -167,11 +167,19 @@ class CourseController extends Controller
 
             //dd($request->all());
             if (isset($request->event[$x])) {
+                $weeks = $x;
+                $course = DB::table('courses')
+                    ->where('id', $request->course)
+                    ->first();
+                $course_time = $course->time_start;
+                $eventTime = null;
+                if ($request->event_time_[$x] !== 'during_class_hour') {
+                    $eventTime = $request->event_time_[$x]; // Set event time if it's not "During Class Hour"
+                } else {
+                    $eventTime = $course_time;
+                }
                 if (!$exists) {
-                    $weeks = $x;
-                    $course = DB::table('courses')
-                        ->where('id', $request->course)
-                        ->first();
+                    //dd($request->all());
                     $day = DB::table('courses')
                         ->where('id', $request->course)
                         ->value('day');
@@ -198,10 +206,15 @@ class CourseController extends Controller
                         'course_id' => $request->course,
                         'date' => $date,
                         'key' => $request->key[$x],
-                        'lecturer_id' => $request->user
+                        'lecturer_id' => $request->user,
+                        'event_time' => $eventTime
                     ]);
                     DB::table('course_planning')->where('key', $request->key[$x])->update([
                         'event' => "1"
+                    ]);
+                } else {
+                    DB::table('events')->where('key', $request->key[$x])->update([
+                        'event_time' => $eventTime
                     ]);
                 }
             } else {
