@@ -1,5 +1,5 @@
 [build]
-  command = "composer install && npm install && npm run dev"
+  command = "composer install && npm install && npm run prod"
   publish = "public"
 
 [build.environment]
