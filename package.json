@@ -2,6 +2,7 @@
     "private": true,
     "scripts": {
         "dev": "vite",
+        "prod": "webpack --mode production",
         "build": "vite build"
     },
     "devDependencies": {
